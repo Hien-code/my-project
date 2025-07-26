@@ -149,7 +149,7 @@ module.exports.createPost = async (req, res) => {
 //[GET] admin/products/trash
 module.exports.trash = async (req, res) => {
   const products = await Product.find({ delete: true });
-  const countProducts = await Product.countDocuments({ delete: true });
+  // const countProducts = await Product.countDocuments({ delete: true });
   res.render("admin/pages/products/trash", {
     pageTitle: "Trang product",
     product: products,

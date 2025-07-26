@@ -14,7 +14,6 @@ if (buttonHardDelete.length > 0) {
         const id = button.getAttribute("data-id");
         const action = `${path}/${id}?_method=DELETE`;
         formDeleteHard.action = action;
-        console.log(action);
         formDeleteHard.submit();
       }
     });
