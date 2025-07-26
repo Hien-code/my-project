@@ -68,6 +68,16 @@ a:hover {
 }
 
 /* Nút hành động */
+.btn-detail {
+    background-color: #67b2e7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
 .btn-edit {
     background-color: #ffc107;
     color: #212529;

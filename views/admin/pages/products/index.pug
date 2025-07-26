@@ -104,6 +104,11 @@ block main
                   ) Dừng hoạt động
               td
                 .d-flex.justify-content-center
+                 a(
+                    href=`${prefixAdmin}/products/detail/${item.id}`
+                    type="button"
+                    class="btn-detail"
+                  ) Chi tiết
                   a(
                     href=`${prefixAdmin}/products/edit/${item.id}`
                     type="button"
