@@ -1,0 +1,191 @@
+a:hover {
+    text-decoration: none;
+    color: #202020;
+}
+/* Header & Layout */
+.header {
+    background: #202020;
+    padding: 10px 0px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header .inner-logo a {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.body .sider {
+    width: 150px;
+    background: #323232;
+    color: #fff;
+    height: calc(100vh - 56px);
+    position: fixed;
+    top: 56px;
+    left: 0px;
+}
+
+.body .main {
+    margin: 15px;
+    position: relative;
+    left: 150px;
+    width: calc(100% - 180px); /* ✅ Đúng: 100% chiều ngang */
+}
+
+/* Sider */
+.sider .inner-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sider .inner-menu ul li a {
+    color: #fff;
+    display: block;
+    padding: 6px 10px;
+    border-bottom: 1px solid #515151;
+}
+
+/* Badge (status) */
+.badge {
+    border-radius: 12px;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.badge-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Nút hành động */
+.btn-detail {
+    background-color: #67b2e7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+}
+
+/* Bảng sản phẩm */
+.table td,
+.table th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.img-thumbnail {
+    border-radius: 10px;
+    width: 80px;
+    height: auto;
+}
+
+/* Flex cho nút hành động */
+.d-flex {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Show Alert */
+[show-alert] {
+    position: fixed;
+    top: 70px;
+    right: 15px;
+    z-index: 9999;
+}
+
+[show-alert].alert-hidden {
+    animation-name: alert-hidden;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+@keyframes alert-hidden {
+    from {
+        right: 15px;
+    }
+    to {
+        right: -100%;
+        display: none;
+    }
+}
+
+[show-alert] [close-alert] {
+    background: #ffffffc4;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* End Show Alert */
+
+/* trash */
+.trash-icon {
+    color: rgb(46, 201, 46); /* Màu xanh lá mặc định */
+    font-size: 24px;
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease,
+        background-color 0.3s ease;
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.trash-icon:hover {
+    transform: scale(1.2) rotate(-10deg);
+    background-color: rgba(46, 201, 46, 0.1); /* Nền xanh nhạt */
+    color: rgb(7, 111, 21); /* Xanh đậm hơn */
+}
+/*End trash */
+
+/* Image Preview */
+.image-preview {
+    width: 150px;
+    height: auto;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.image-preview[src=""] {
+    display: none;
+}
+/* End Image Preview */
