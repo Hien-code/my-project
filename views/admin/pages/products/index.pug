@@ -4,6 +4,8 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+
 
 
 
@@ -25,6 +27,13 @@ block main
               input(type="text", placeholder="Nhập từ khóa", name="keyword", class="form-control", value = keyword)
               .input-group-append
                 button(class="btn btn-success", type="submit") Tìm
+
+  .card.mb-3
+    .card-header Sắp xếp
+    .card-body
+      .row
+        .col-4
+          +sort()
 
   .card.mb-3
     .card-header Danh sách sản phẩm
