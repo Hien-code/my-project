@@ -1,5 +1,6 @@
 //Initialize and configure Expressv
 const express = require("express");
+var path = require("path");
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -8,7 +9,13 @@ const flash = require("express-flash");
 
 const app = express();
 
-//Notifications
+//TinyMCE
+app.use(
+  "/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce"))
+);
+
+//Flash thông báo
 app.use(cookieParser("CONGHIENCODE"));
 app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
