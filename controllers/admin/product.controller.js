@@ -222,7 +222,7 @@ module.exports.editPatch = async (req, res) => {
   req.body.stock = parseInt(req.body.stock);
   req.body.position = parseInt(req.body.position);
 
-  if (req.file) {
+  if (req.file && req.file.path) {
     req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
 
@@ -236,7 +236,7 @@ module.exports.editPatch = async (req, res) => {
   res.redirect(`${systemConfig.prefixAdmin}/products`);
 };
 
-// [GET] admin/products/edit/:id
+// [GET] admin/products/detail/:id
 module.exports.detail = async (req, res) => {
   try {
     const id = req.params.id;

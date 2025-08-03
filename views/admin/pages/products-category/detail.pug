@@ -1,0 +1,38 @@
+extends ../../layouts/default
+include ../../mixins/alert.pug
+    block main
+        link(rel="stylesheet", href="/admin/css/product-detail.css")
+        .product-detail-container
+            .product-card.shadow-lg
+                if (records.thumbnail)
+                    .product-image
+                        img(src=records.thumbnail, alt=records.title, class="img-fluid rounded")
+                .product-info
+                    if (records.title)
+                        h1.product-title #{records.title}
+                    .product-meta
+                        if (records.price)
+                            div Giá: <span class="price">#{records.price}</span>
+                        if (records.discountPercentage)
+                            div Giảm giá: <span class="discount">#{records.discountPercentage}%</span>
+                        if (records.stock)
+                            div Còn lại: <span class="stock">#{records.stock}</span>
+                        if (records.position)
+                            div Vị trí: <span class="position">#{records.position}</span>
+                    if (records.status)
+                        div.status-row
+                            span Trạng thái:
+                            if (records.status === "active")
+                                span.badge.badge-success Hoạt động
+                            else
+                                span.badge.badge-danger Dừng hoạt động
+                    if (records.description)
+                        div.product-description !{records.description}
+                    a(
+                        href=`${prefixAdmin}/products-category/edit/${records.id}`
+                        type="button"
+                        class="btn-edit btn btn-primary mt-3"
+                    )
+                        i(class="fas fa-edit")
+                        |  Sửa
+        script(src="/admin/js/product.js")

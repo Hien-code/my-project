@@ -1,4 +1,3 @@
-//import thư viện Express vào biến express
 const express = require("express");
 
 //định nghĩa các tuyến đường (route)
