@@ -1,6 +1,7 @@
 const ProductCategogy = require("../../models/product-category.model");
 const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
+const createTreeHelper = require("../../helpers/createTree");
 
 //[GET] admin/products-category
 module.exports.index = async (req, res) => {
@@ -11,10 +12,14 @@ module.exports.index = async (req, res) => {
   if (req.query.status) {
     find.status = req.query.status;
   }
+
   const records = await ProductCategogy.find(find);
+
+  const newRecords = createTreeHelper.tree(records);
+
   res.render("admin/pages/products-category/index", {
     pageTitle: "Trang Danh mục sản phẩm",
-    records: records,
+    records: newRecords,
     filterStatus: filterStatus,
   });
 };
@@ -39,12 +44,12 @@ module.exports.detail = async (req, res) => {
   }
 };
 
-// [PATCH] admin/products-catelogy/detail/:id
+// [PATCH] admin/products-catelogy/edit/:id
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
   req.body.position = parseInt(req.body.position);
 
-  if (req.file) {
+  if (req.file && req.file.path) {
     req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
 
@@ -108,9 +113,18 @@ module.exports.deleteItem = async (req, res) => {
 };
 
 //[GET] admin/products-category/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+  let find = {
+    delete: false,
+  };
+
+  const records = await ProductCategogy.find(find);
+
+  const newRecords = createTreeHelper.tree(records);
+
   res.render("admin/pages/products-category/create", {
     pageTitle: "Trang tạo Danh mục sản phẩm",
+    records: newRecords,
   });
 };
 

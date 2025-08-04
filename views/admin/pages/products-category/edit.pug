@@ -46,11 +46,13 @@ block main
                 accept="image/*"
                 upload-image-input
             )
-            img(
-                src=records.thumbnail
-                upload-image-preview
-                class="image-preview"
-            )
+            if records.thumbnail
+                img(
+                    src=records.thumbnail
+                    upload-image-preview
+                    class="image-preview"
+                )
+
 
         div(class="form-group")
             label(for="position") Vị trí

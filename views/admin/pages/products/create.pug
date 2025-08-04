@@ -20,7 +20,7 @@ block main
                 id="title"
                 name="title"
                 required
-        )
+            )
 
         div(class="form-group")
             label(for="desc") Mô tả
@@ -29,7 +29,7 @@ block main
                 id="desc"
                 name="description"
                 rows="5"
-        )
+            )
 
         div(class="form-group")
             label(for="price") Giá
@@ -41,7 +41,7 @@ block main
                 value="0"
                 min="0"
                 step="0.01"
-        )
+            )
 
         div(class="form-group")
             label(for="discount") % Giảm giá
@@ -53,7 +53,7 @@ block main
                 value="0"
                 min="0"
                 step="0.01"
-        )
+            )
 
         div(class="form-group")
             label(for="stock") Số lượng
@@ -64,7 +64,7 @@ block main
                 name="stock"
                 value="0"
                 min="0"
-        )
+            )
 
         div(
             class="form-group"
@@ -78,7 +78,7 @@ block main
                 name="thumbnail"
                 accept="image/*"
                 upload-image-input
-        )
+            )
             img(
                 src=""
                 upload-image-preview
@@ -94,7 +94,7 @@ block main
                 name="position"
                 placeholder="Tự động tăng"
                 min="1"
-        )
+            )
 
         div(class="form-group form-check form-check-inline")
             input(
@@ -104,7 +104,7 @@ block main
                 name="status"
                 value="active"
                 checked
-        )
+            )
             label(for="statusActive" class="form-check-label") Hoạt động
 
         div(class="form-group form-check form-check-inline")
@@ -114,7 +114,7 @@ block main
                 id="statusInactive"
                 name="status"
                 value="inactive"
-        )
+            )
             label(for="statusInactive" class="form-check-label") Dừng hoạt động
 
         div(class="form-group")
