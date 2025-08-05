@@ -167,7 +167,6 @@ module.exports.createPost = async (req, res) => {
 //[GET] admin/products/trash
 module.exports.trash = async (req, res) => {
   const products = await Product.find({ delete: true });
-  // const countProducts = await Product.countDocuments({ delete: true });
   res.render("admin/pages/products/trash", {
     pageTitle: "Trang product",
     product: products,
@@ -216,9 +215,15 @@ module.exports.edit = async (req, res) => {
     };
     const product = await Product.findOne(find);
 
+    const category = await ProductCategogy.find({
+      delete: false,
+    });
+
+    const newCategory = createTreeHelper.tree(category);
     res.render("admin/pages/products/edit", {
       pageTitle: "Trang chỉnh sửa sản phẩm",
       product: product,
+      category: newCategory,
     });
   } catch (error) {
     req.flash("error", "Không tồn tại sản phẩm này!");
