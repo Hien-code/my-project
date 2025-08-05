@@ -1,5 +1,7 @@
 extends ../../layouts/default
 include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+
 
 block main
     +alert-error(5000)
@@ -7,7 +9,7 @@ block main
     h1 Trang tạo mới sản phẩm
 
     form(
-        action=`${prefixAdmin}/products-category/edit/${records.id}?_method=PATCH`
+        action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
         id="form-edit-product"
         method="POST"
         enctype="multipart/form-data"
@@ -20,8 +22,18 @@ block main
                 id="title"
                 name="title"
                 required
-                value=records.title
+                value=data.title
             )
+        div(class="form-group")
+            label(for="parent_id") Danh mục cha
+            select(
+                name="parent_id"
+                id="parent_id"
+                class="form-control"
+            )
+                option(value="") -- Chọn danh mục cha --
+                if(records)
+                    +select-tree(records, 1, data.parent_id)
 
         div(class="form-group")
             label(for="desc") Mô tả
@@ -30,8 +42,8 @@ block main
                 id="desc"
                 name="description"
                 rows="5"
-                value=records.description
-            ) #{records.description}
+                value=data.description
+            ) #{data.description}
 
         div(
             class="form-group"
@@ -46,9 +58,9 @@ block main
                 accept="image/*"
                 upload-image-input
             )
-            if records.thumbnail
+            if data.thumbnail
                 img(
-                    src=records.thumbnail
+                    src=data.thumbnail
                     upload-image-preview
                     class="image-preview"
                 )
@@ -63,7 +75,7 @@ block main
                 name="position"
                 placeholder="Tự động tăng"
                 min="1"
-                value=records.position
+                value=data.position
             )
 
         div(class="form-group form-check form-check-inline")
@@ -73,7 +85,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked=(records.status == "active" ? true : false)
+                checked=(data.status == "active" ? true : false)
             )
             label(for="statusActive" class="form-check-label") Hoạt động
 
@@ -84,7 +96,7 @@ block main
                 id="statusInactive"
                 name="status"
                 value="inactive"
-                checked=(records.status == "inactive" ? true : false)
+                checked=(data.status == "inactive" ? true : false)
             )
             label(for="statusInactive" class="form-check-label") Dừng hoạt động
 

@@ -46,36 +46,40 @@ module.exports.detail = async (req, res) => {
 
 // [PATCH] admin/products-catelogy/edit/:id
 module.exports.editPatch = async (req, res) => {
-  const id = req.params.id;
-  req.body.position = parseInt(req.body.position);
-
-  if (req.file && req.file.path) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-  }
-
   try {
+    const id = req.params.id;
+    req.body.position = parseInt(req.body.position);
+
+    if (req.file && req.file.path) {
+      req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
     await ProductCategogy.updateOne({ _id: id }, req.body);
     req.flash("success", "Cập nhật sản phẩm thành công!");
   } catch (error) {
     req.flash("error", "Cập nhật sản phẩm thất bại!");
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
   }
-
-  res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 };
 
 // [GET] admin/products-category/edit/:id
 module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
-    const find = {
+    const data = await ProductCategogy.findOne({
       delete: false,
       _id: id,
-    };
-    const records = await ProductCategogy.findOne(find);
+    });
+
+    const records = await ProductCategogy.find({
+      delete: false,
+    });
+
+    const newRecords = createTreeHelper.tree(records);
 
     res.render("admin/pages/products-category/edit", {
       pageTitle: "Trang chỉnh sửa sản phẩm",
-      records: records,
+      data: data,
+      records: newRecords,
     });
   } catch (error) {
     req.flash("error", "Không tồn tại sản phẩm này!");
