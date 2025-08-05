@@ -1,4 +1,7 @@
 const Product = require("../../models/product.model");
+const ProductCategogy = require("../../models/product-category.model");
+
+const createTreeHelper = require("../../helpers/createTree");
 const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
@@ -124,9 +127,18 @@ module.exports.changeMulti = async (req, res) => {
 };
 
 //[GET] admin/products/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+  let find = {
+    delete: false,
+  };
+
+  const category = await ProductCategogy.find(find);
+
+  const newCategory = createTreeHelper.tree(category);
+
   res.render("admin/pages/products/create", {
     pageTitle: "Trang thêm mới sản phẩm",
+    category: newCategory,
   });
 };
 
