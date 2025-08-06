@@ -1,0 +1,60 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+
+block main
+  +alert-error(5000)
+  +alert-success(5000)
+  h1(class="mb-4") Nhóm quyền
+
+  .card.mb-3
+    .card-header Danh sách
+
+  table(
+    class="table table-hover table-sm"
+  )
+    thead
+      tr
+        th STT
+        th Nhóm quyền
+        th Mô tả ngắn
+        th Hành động
+    tbody
+      if (records.length > 0)
+        each item, index in records
+          tr
+            td #{index + 1}
+            td #{item.title}
+            td !{item.description}
+            td
+              .d-flex.justify-content-center
+                button(
+                    data-id=item.id
+                    button-restore
+                    type="button"
+                    class="btn-edit"
+                ) Khôi phục
+                button(
+                    data-id=item.id
+                    button-delete-hard
+                    type="button"
+                    class="btn-delete"
+                ) Xóa vĩnh viễn
+      else
+        tr
+          td(colspan="4" class="text-center") Chưa có nhóm quyền đã xóa mềm
+
+    form(
+        action=""
+        method="post"
+        id="form-restore"
+        data-path=`${prefixAdmin}/roles/restore`
+    )
+
+    form(
+        action=""
+        method="post"
+        id="form-delete-hard"
+        data-path= `${prefixAdmin}/roles/delete-hard`
+    )
+    script(src="/admin/js/trash.js")
