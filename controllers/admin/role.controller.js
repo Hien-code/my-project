@@ -112,3 +112,25 @@ module.exports.restore = async (req, res) => {
   req.flash("success", "Khôi phục nhóm quyền thành công!");
   res.redirect(req.get("referer"));
 };
+
+//[GET] admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+  const find = {
+    delete: false,
+  };
+  const records = await Role.find(find);
+  res.render("admin/pages/roles/permissions", {
+    pageTitle: "Trang phân quyền",
+    records: records,
+  });
+};
+
+// [PATCH] admin/roles/permissionsPatch
+module.exports.permissionsPatch = async (req, res) => {
+  const permissions = JSON.parse(req.body.permissions);
+  for (const item of permissions) {
+    await Role.updateMany({ _id: item.id }, { permissions: item.permissions });
+  }
+  req.flash("success", "Cập nhật phân quyền thành công");
+  res.redirect(req.get("referer"));
+};

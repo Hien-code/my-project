@@ -22,4 +22,8 @@ router.patch("/restore/:id", controller.restore);
 
 router.get("/trash", controller.trash);
 
+router.get("/permissions", controller.permissions);
+
+router.patch("/permissions", controller.permissionsPatch);
+
 module.exports = router;
