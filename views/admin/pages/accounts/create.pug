@@ -70,8 +70,8 @@ block main
             label(for="role_id") Phân quyền
             select(name="role_id" id="role_id" class="form-control")
                 option(disabled selected) -- Chọn --
-                option(value="") Quản trị viên
-                option(value="") Quản trị nội dung
+                each item in roles
+                    option(value=item.id) #{item.title}
 
         div(class="form-group form-check form-check-inline")
             input(
