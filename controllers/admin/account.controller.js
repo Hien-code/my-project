@@ -41,7 +41,6 @@ module.exports.createPost = async (req, res) => {
     email: req.body.email,
     delete: false,
   });
-  console.log(emailExist);
 
   if (emailExist) {
     req.flash("error", `Email ${req.body.email} đã tồn tại!`);
@@ -52,4 +51,61 @@ module.exports.createPost = async (req, res) => {
     record.save();
   }
   res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+};
+
+//[PATCH] admin/accounts/accounts/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+  const status = req.params.status;
+  const id = req.params.id;
+
+  await Account.updateOne({ _id: id }, { status: status });
+
+  req.flash("success", "Cập nhật trạng thái thành công!");
+
+  // res.redirect("/admin/products");
+  res.redirect(req.get("referer")); // Giữ nguyên URL gốc
+};
+
+//[GET] admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const roles = await Role.find({
+      delete: false,
+    });
+    const record = await Account.findOne({ _id: id });
+    res.render("admin/pages/accounts/edit", {
+      pageTitle: "Trang edit account",
+      roles: roles,
+      record: record,
+    });
+  } catch (error) {
+    req.flash("error", "Không tồn tại account!");
+    res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+  }
+};
+
+//[PATCH] admin/accounts/edit
+module.exports.editPatch = async (req, res) => {
+  const id = req.params.id;
+
+  const emailExist = await Account.findOne({
+    _id: { $ne: id },
+    email: req.body.email,
+    delete: false,
+  });
+
+  if (emailExist) {
+    req.flash("error", `Email ${req.body.email} đã tồn tại!`);
+  } else {
+    if (req.body.password) {
+      req.body.password = md5(req.body.password);
+    } else {
+      delete req.body.password;
+    }
+
+    await Account.updateOne({ _id: id }, req.body);
+    req.flash("success", "Cập nhật tài khoản thành công!");
+  }
+  res.redirect(req.get("referer"));
 };
