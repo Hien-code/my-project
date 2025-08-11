@@ -4,9 +4,13 @@ const systemConfig = require("../../config/system");
 
 //[GET] admin/auth/login
 module.exports.login = (req, res) => {
-  res.render("admin/pages/auth/login", {
-    pageTitle: "Trang admin",
-  });
+  if (req.cookies.token) {
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+  } else {
+    res.render("admin/pages/auth/login", {
+      pageTitle: "Trang admin",
+    });
+  }
 };
 
 //[POST] admin/auth/login
@@ -31,10 +35,8 @@ module.exports.loginPost = async (req, res) => {
     res.redirect(req.get("referer"));
     return;
   }
-
-  console.log(user);
+  // Tạo cookie
   res.cookie("token", user.token);
-
   res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
 };
 
