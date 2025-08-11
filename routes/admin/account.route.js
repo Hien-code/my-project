@@ -31,4 +31,12 @@ router.patch(
   controller.editPatch
 );
 
+router.delete("/delete/:id", controller.deleteItem);
+
+router.get("/trash", controller.trash);
+
+router.patch("/restore/:id", controller.restore);
+
+router.delete("/delete-hard/:id", controller.hardDelete);
+
 module.exports = router;

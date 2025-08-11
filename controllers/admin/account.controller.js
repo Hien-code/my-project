@@ -109,3 +109,54 @@ module.exports.editPatch = async (req, res) => {
   }
   res.redirect(req.get("referer"));
 };
+
+//[DELETE] admin/account/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  const id = req.params.id;
+  await Account.updateOne(
+    { _id: id },
+    {
+      delete: true,
+      deleteAt: new Date(),
+    }
+  );
+  req.flash("success", `Đã xóa sản phẩm thành công!`);
+
+  res.redirect(req.get("referer")); // Giữ nguyên URL gốc
+};
+
+//[GET] admin/products/trash
+module.exports.trash = async (req, res) => {
+  const find = {
+    delete: true,
+  };
+  const records = await Account.find(find).select("-password -token");
+
+  for (const record of records) {
+    const role = await Role.findOne({
+      delete: false,
+      _id: record.role_id,
+    });
+    record.role = role;
+  }
+  res.render("admin/pages/accounts/trash", {
+    pageTitle: "Trang trash accounts",
+    records: records,
+  });
+};
+
+// [PATCH] admin/products/restore/:id
+module.exports.restore = async (req, res) => {
+  const id = req.params.id;
+  await Account.updateOne({ _id: id }, { delete: false, deleteAt: new Date() });
+  req.flash("success", "Khôi phục account thành công!");
+  res.redirect(req.get("referer"));
+};
+
+// [DELETE] admin/products/delete-hard/:id
+module.exports.hardDelete = async (req, res) => {
+  const id = req.params.id;
+  await Account.deleteOne({ _id: id });
+  req.flash("success", "Đã xóa vĩnh viễn account!");
+  res.redirect(req.get("referer")); // Giữ nguyên URL gốc
+};
