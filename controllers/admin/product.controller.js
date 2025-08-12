@@ -112,7 +112,10 @@ module.exports.changeMulti = async (req, res) => {
         { _id: { $in: ids } },
         {
           delete: true,
-          deleteAt: new Date(),
+          deletedBy: {
+            account_id: res.locals.user.id,
+            deletedAt: new Date(),
+          },
         }
       );
       req.flash("success", `Đã xóa ${ids.length} sản phẩm thành công!`);
@@ -204,7 +207,10 @@ module.exports.deleteItem = async (req, res) => {
     { _id: id },
     {
       delete: true,
-      deleteAt: new Date(),
+      deletedBy: {
+        account_id: res.locals.user.id,
+        deletedAt: new Date(),
+      },
     }
   );
   req.flash("success", `Đã xóa sản phẩm thành công!`);
