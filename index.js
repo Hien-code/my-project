@@ -5,6 +5,7 @@ const methodOverride = require("method-override");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("express-flash");
+const moment = require("moment");
 
 require("dotenv").config(); // Load environment variables early
 
@@ -55,6 +56,7 @@ routeAdmin(app);
 // Local variables for views
 const systemConfig = require("./config/system");
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
 // Start the server
 const port = process.env.PORT || 3000;

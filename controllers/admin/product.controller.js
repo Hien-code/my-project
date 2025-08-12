@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model");
 const ProductCategogy = require("../../models/product-category.model");
+const Account = require("../../models/account.model");
 
 const createTreeHelper = require("../../helpers/createTree");
 const systemConfig = require("../../config/system");
@@ -52,6 +53,15 @@ module.exports.index = async (req, res) => {
     .limit(objectPagination.limitItem)
     .skip(objectPagination.skip)
     .sort(sort);
+
+  for (const product of products) {
+    const user = await Account.findOne({
+      _id: product.createdBy.account_id,
+    });
+    if (user) {
+      product.accountFullName = user.fullName;
+    }
+  }
 
   res.render("admin/pages/products/index", {
     pageTitle: "Trang product",
@@ -154,6 +164,11 @@ module.exports.createPost = async (req, res) => {
   } else {
     req.body.position = parseInt(req.body.position);
   }
+
+  // Thêm field account_id cho Product = id của người tạo user.id
+  req.body.createdBy = {
+    account_id: res.locals.user.id,
+  };
 
   //Tạo mới 1 product
   const product = new Product(req.body);
