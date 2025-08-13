@@ -322,7 +322,7 @@ module.exports.editPatch = async (req, res) => {
     req.flash("error", "Cập nhật sản phẩm thất bại!");
   }
 
-  res.redirect(req.get("referer"));
+  res.redirect(`${systemConfig.prefixAdmin}/products`);
 };
 
 // [GET] admin/products/detail/:id
