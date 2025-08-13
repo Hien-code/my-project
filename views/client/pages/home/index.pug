@@ -3,9 +3,18 @@ include ../../mixins/box-head
 include ../../mixins/product-layout
 
 block main
-    .container.my-3
+  .section-products-featured.my-5
+    .container
         .row
             .col-12
                 +box-head("Sản phẩm nổi bật")
 
         +product-grid(productsFeatured)
+
+  .section-products-new.my-5
+    .container
+        .row
+            .col-12
+                +box-head("Sản phẩm mới")
+
+        +product-grid(productsNew)
