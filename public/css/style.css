@@ -63,6 +63,22 @@ a:hover {
     display: block;
 }
 
+.inner-image {
+    position: relative;
+}
+
+.inner-image .inner-featured {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgb(233, 200, 115);
+    color: black;
+    padding: 3px 6px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
 .inner-content {
     padding: 16px;
     display: flex;
@@ -142,4 +158,5 @@ a:hover {
 .sub-menu ul li:hover > ul {
     display: block;
 }
+
 /* End sub-menu */

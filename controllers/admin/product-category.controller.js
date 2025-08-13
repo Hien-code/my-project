@@ -134,18 +134,23 @@ module.exports.create = async (req, res) => {
 
 //[POST] admin/products-category/create
 module.exports.createPost = async (req, res) => {
-  if (req.body.position == "") {
-    const count = await ProductCategogy.countDocuments();
-    req.body.position = count + 1;
+  const permissions = res.locals.role.permissions;
+  if (permissions) {
+    if (req.body.position == "") {
+      const count = await ProductCategogy.countDocuments();
+      req.body.position = count + 1;
+    } else {
+      req.body.position = parseInt(req.body.position);
+    }
+
+    const record = new ProductCategogy(req.body);
+
+    await record.save();
+
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
   } else {
-    req.body.position = parseInt(req.body.position);
+    return;
   }
-
-  const record = new ProductCategogy(req.body);
-
-  await record.save();
-
-  res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 };
 
 //[PATCH] admin/products/change-multi"

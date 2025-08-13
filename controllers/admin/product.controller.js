@@ -220,7 +220,7 @@ module.exports.createPost = async (req, res) => {
   //Lưu lại trong database
   await product.save();
 
-  res.redirect(`${systemConfig.prefixAdmin}/products`);
+  res.redirect(req.get("referer"));
 };
 
 //[GET] admin/products/trash
@@ -322,7 +322,7 @@ module.exports.editPatch = async (req, res) => {
     req.flash("error", "Cập nhật sản phẩm thất bại!");
   }
 
-  res.redirect(`${systemConfig.prefixAdmin}/products`);
+  res.redirect(req.get("referer"));
 };
 
 // [GET] admin/products/detail/:id
