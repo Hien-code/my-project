@@ -31,3 +31,8 @@ header.header
                             -const pathProduct = "/products"
                             a(href="/products") Sản phẩm
                                 +sub-menu(layoutproductsCategory, pathProduct)
+                        li
+                            a(href="/cart")
+                                i.fa.fa-cart-arrow-down(aria-hidden="true")
+                                span (#{minicart ? minicart.totalQuantity : 0})
+

@@ -15,7 +15,6 @@ module.exports.addPost = async (req, res) => {
 
   if (existProductInCart) {
     const newQuantity = quantity + existProductInCart.quantity;
-    console.log(newQuantity);
 
     await Cart.updateOne(
       {
