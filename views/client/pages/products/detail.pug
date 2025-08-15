@@ -1,8 +1,11 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+
 
 
 block main
+  +alert-success(2000)
   .product-detail
     .container.my-5
       .row
@@ -30,8 +33,8 @@ block main
 
           if (product.stock)
             div(class="inner-stock")
-              | Còn lại 
-              span #{product.stock} 
+              | Còn lại
+              span #{product.stock}
               | sản phẩm
 
           form(
