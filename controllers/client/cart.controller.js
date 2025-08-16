@@ -1,4 +1,8 @@
 const Cart = require("../../models/cart.model");
+const Product = require("../../models/product.model");
+
+const productsHelper = require("../../helpers/products");
+
 //[POST] /add/:productId
 module.exports.addPost = async (req, res) => {
   const productId = req.params.productId;
@@ -44,4 +48,40 @@ module.exports.addPost = async (req, res) => {
 
   req.flash("success", "Đã thêm sản phẩm vào giỏ hàng!");
   res.redirect(req.get("referer"));
+};
+
+//[GET] /cart
+module.exports.index = async (req, res) => {
+  const cartId = req.cookies.cartId;
+
+  const cart = await Cart.findOne({
+    _id: cartId,
+  });
+
+  if (cart.products.length > 0) {
+    for (const item of cart.products) {
+      const productId = item.product_id;
+      const productInfo = await Product.findOne({
+        _id: productId,
+      }).select("title thumbnail slug price discountPercentage");
+
+      // Tạo ra field giá mới cho object product
+      productInfo.priceNew = productsHelper.priceNewProduct(productInfo);
+      // Tạo ra field productInfo cho object cart
+      item.productInfo = productInfo;
+      // Thêm field giá mới cho object cart
+      item.totalPrice = productInfo.priceNew * item.quantity;
+    }
+  }
+
+  // Thêm field tính tổng của cart reduce: lặp với sum = 0
+  cart.totalPrice = cart.products.reduce(
+    (sum, item) => sum + item.totalPrice,
+    0
+  );
+
+  res.render("client/pages/cart/index", {
+    pageTitle: "Giỏ hàng",
+    cartDetail: cart,
+  });
 };
