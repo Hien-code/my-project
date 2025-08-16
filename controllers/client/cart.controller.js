@@ -3,7 +3,7 @@ const Product = require("../../models/product.model");
 
 const productsHelper = require("../../helpers/products");
 
-//[POST] /add/:productId
+//[POST] /cart/add/:productId
 module.exports.addPost = async (req, res) => {
   const productId = req.params.productId;
   const quantity = parseInt(req.body.quantity);
@@ -84,4 +84,20 @@ module.exports.index = async (req, res) => {
     pageTitle: "Giỏ hàng",
     cartDetail: cart,
   });
+};
+
+//[GET] /cart/add/:productId
+module.exports.delete = async (req, res) => {
+  const cartId = req.cookies.cartId;
+  const productId = req.params.productId;
+  await Cart.updateOne(
+    {
+      _id: cartId,
+    },
+    {
+      $pull: { products: { product_id: productId } },
+    }
+  );
+  req.flash("success", "Xóa sản phẩm thành công!");
+  res.redirect(req.get("referer"));
 };
