@@ -7,12 +7,14 @@ const usertRoutes = require('./user.route')
 
 const categoryMiddleware = require('../../middlewares/client/category.middleware')
 const cartMiddleware = require('../../middlewares/client/cart.middleware')
+const userMiddleware = require('../../middlewares/client/user.middleware')
 
 //module.exports => require(import)
 module.exports = (app) => {
   // app luôn luôn gọi middleware
   app.use(categoryMiddleware.category)
   app.use(cartMiddleware.cart)
+  app.use(userMiddleware.infoUser)
 
   app.use('/', homeRoutes)
   app.use('/products', productRoutes)
