@@ -1,30 +1,30 @@
-const Product = require("../../models/product.model");
-const Cart = require("../../models/cart.model");
-const Order = require("../../models/order.model");
+const Product = require('../../models/product.model')
+const Cart = require('../../models/cart.model')
+const Order = require('../../models/order.model')
 
-const productsHelper = require("../../helpers/products");
+const productsHelper = require('../../helpers/products')
 
 //[GET] /checkout
 module.exports.index = async (req, res) => {
-  const cartId = req.cookies.cartId;
+  const cartId = req.cookies.cartId
 
   const cart = await Cart.findOne({
     _id: cartId,
-  });
+  })
 
   if (cart.products.length > 0) {
     for (const item of cart.products) {
-      const productId = item.product_id;
+      const productId = item.product_id
       const productInfo = await Product.findOne({
         _id: productId,
-      }).select("title thumbnail slug price discountPercentage");
+      }).select('title thumbnail slug price discountPercentage')
 
       // Tạo ra field giá mới cho object product
-      productInfo.priceNew = productsHelper.priceNewProduct(productInfo);
+      productInfo.priceNew = productsHelper.priceNewProduct(productInfo)
       // Tạo ra field productInfo cho object cart
-      item.productInfo = productInfo;
+      item.productInfo = productInfo
       // Thêm field giá mới cho object cart
-      item.totalPrice = productInfo.priceNew * item.quantity;
+      item.totalPrice = productInfo.priceNew * item.quantity
     }
   }
 
@@ -32,23 +32,23 @@ module.exports.index = async (req, res) => {
   cart.totalPrice = cart.products.reduce(
     (sum, item) => sum + item.totalPrice,
     0
-  );
+  )
 
-  res.render("client/pages/checkout/index", {
-    pageTitle: "Trang thanh toán",
+  res.render('client/pages/checkout/index', {
+    pageTitle: 'Trang thanh toán',
     cartDetail: cart,
-  });
-};
+  })
+}
 
 //[post] /checkout/order
 module.exports.order = async (req, res) => {
-  const cartId = req.cookies.cartId;
-  const userInfo = req.body;
+  const cartId = req.cookies.cartId
+  const userInfo = req.body
   const cart = await Cart.findOne({
     _id: cartId,
-  });
+  })
 
-  const products = [];
+  const products = []
 
   for (const product of cart.products) {
     const objectProduct = {
@@ -56,26 +56,26 @@ module.exports.order = async (req, res) => {
       price: 0,
       discountPercentage: 0,
       quantity: product.quantity,
-    };
+    }
 
     const productInfo = await Product.findOne({
       _id: product.product_id,
-    }).select("price discountPercentage");
+    }).select('price discountPercentage')
 
-    objectProduct.price = productInfo.price;
-    objectProduct.discountPercentage = productInfo.discountPercentage;
+    objectProduct.price = productInfo.price
+    objectProduct.discountPercentage = productInfo.discountPercentage
 
-    products.push(objectProduct);
+    products.push(objectProduct)
   }
 
   const orderInfo = {
     cart_id: cartId,
     userInfo: userInfo,
     products: products,
-  };
+  }
 
-  const order = new Order(orderInfo);
-  await order.save();
+  const order = new Order(orderInfo)
+  await order.save()
 
   await Cart.updateOne(
     {
@@ -84,14 +84,36 @@ module.exports.order = async (req, res) => {
     {
       products: [],
     }
-  );
+  )
 
-  res.redirect(`/checkout/success/${order.id}`);
-};
+  res.redirect(`/checkout/success/${order.id}`)
+}
 
 //[post] /checkout/success/:orderId
 module.exports.success = async (req, res) => {
-  console.log(req.params.orderId);
+  const order = await Order.findOne({
+    _id: req.params.orderId,
+  })
 
-  res.render("client/pages/checkout/success");
-};
+  for (const product of order.products) {
+    const productInfo = await Product.findOne({
+      _id: product.product_id,
+    }).select('title thumbnail')
+
+    product.productInfo = productInfo
+
+    product.priceNew = productsHelper.priceNewProduct(product)
+
+    product.totalPrice = product.priceNew * product.quantity
+  }
+
+  order.totalPrice = order.products.reduce(
+    (sum, item) => sum + item.totalPrice,
+    0
+  )
+
+  res.render('client/pages/checkout/success', {
+    pageTitle: 'Trang đặt hàng thành công',
+    order: order,
+  })
+}
