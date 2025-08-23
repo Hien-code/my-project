@@ -8,6 +8,7 @@ const usertRoutes = require('./user.route')
 const categoryMiddleware = require('../../middlewares/client/category.middleware')
 const cartMiddleware = require('../../middlewares/client/cart.middleware')
 const userMiddleware = require('../../middlewares/client/user.middleware')
+const settingGeneralMiddleware = require('../../middlewares/client/setting.middleware')
 
 //module.exports => require(import)
 module.exports = (app) => {
@@ -15,6 +16,7 @@ module.exports = (app) => {
   app.use(categoryMiddleware.category)
   app.use(cartMiddleware.cart)
   app.use(userMiddleware.infoUser)
+  app.use(settingGeneralMiddleware.SettingGeneral)
 
   app.use('/', homeRoutes)
   app.use('/products', productRoutes)
