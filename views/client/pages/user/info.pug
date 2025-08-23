@@ -1,0 +1,34 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head("Thông tin tài khoản")
+        h1(class="mb-4") Thông tin cá nhân
+
+    //- if (user.avatar)
+    //-     img(src=user.avatar width="150px" class="mb-3")
+    //- else
+    //-     img(src="/admin/images/avatar.png" width="150px" class="mb-3")
+
+    if (user.fullName)
+        p Họ tên: <b>#{user.fullName}</b>
+
+    if (user.email)
+        p Email: <b>#{user.email}</b>
+
+    //- if (user.phone)
+    //-     p Số điện thoại: <b>#{user.phone}</b>
+
+    p
+        span Trạng thái:
+        span
+            b #{user.status === "active" ? "Hoạt động" : "Dừng hoạt động"}
+
+
+    a(
+        href=`/user/edit`
+        class="btn btn-success"
+    ) Chỉnh sửa thông tin

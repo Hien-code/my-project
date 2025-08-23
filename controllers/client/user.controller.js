@@ -41,8 +41,6 @@ module.exports.login = async (req, res) => {
 
 //[POST] /user/login
 module.exports.loginPost = async (req, res) => {
-  console.log(req.body)
-
   const email = req.body.email
   const password = md5(req.body.password)
 
@@ -171,4 +169,10 @@ module.exports.resetPasswordPost = async (req, res) => {
   )
 
   res.redirect('/')
+}
+
+module.exports.info = async (req, res) => {
+  res.render('client/pages/user/info', {
+    pageTitle: 'Trang thông tin cá nhân',
+  })
 }
